@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <link rel = "stylesheet" href = "estilo.css">
+    <link rel = "shortcut icon" href = "sac.png">
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <title>Chat</title>
+
+</head>
+
+<body>
+
+    <form id = "chat">
+        <input type = "text" name = "username" placeholder = "Digite seu usuário">
+        <div class = "messages"></div>
+        <input type = "text" name = "message" placeholder = "Digite sua mensagem">
+        <button type = "submit">Enviar</button>
+    </form>
+
+    <!--Conexão com o backend-->
+    <script type = "text/javascript">
+        var socket = io('http://localhost:3000');
+
+        //Renderizando a mensagem na tela:
+        function renderMessage(message) {
+            $('.messages').append('<div class="message"><strong>'+ message.author +'</strong>:'+ message.message +'</div>');
+        }
+
+        socket.on('previousMessages', function(messages){
+            for (message of messages) {
+                renderMessage(message);
+            }
+        });
+
+        //"Ouvindo" a mensagem:
+        socket.on('recievedMessage', function(message) {
+            renderMessage(message);
+        });
+
+        $('#chat').submit(function(event){
+            event.preventDefault();
+
+            var author = $('input[name=username]').val();
+            var message = $('input[name=message]').val();
+
+            if (author.length && message.length) {
+                var messageObject = {
+                    author: author,
+                    message: message,
+                };
+
+                renderMessage(messageObject);
+
+                socket.emit('sendMessage', messageObject);
+            }
+        });
+    </script>
+
+    <footer id = "footer"> 
+
+        Feito por Mateus Leonardo e Miguel de Oliveira
+
+    </footer>
+    
+</body>
+
+</html>
