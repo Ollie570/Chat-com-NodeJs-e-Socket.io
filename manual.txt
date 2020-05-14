@@ -1,0 +1,12 @@
+Manual sobre como usar devidamente o chat:
+
+1. Ao abrir a pasta em um editor de texto de sua preferência, abra o terminal
+2. Se não possuir o node modules, digite "npm install"
+3. Em seguida, digite "npm start"
+4. Para desativar o servidor, digite "ctrl + c"
+
+Observações:
+
+Se não tiver o NodeJS em sua máquina, é necessária a instalação
+As mensagens só serão apagadas se o servidor for desativado
+Para uma melhor demonstração do Socket.io, abra duas guias do seu navegador e simule uma conversa
